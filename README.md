@@ -4,17 +4,14 @@ RapiCalib is a camera calibration app from an [OpenCV tutorial][1] modified to
 work directly with the Raspberry Pi camera.
 
 A modified [RaspiVid][2] application is used to provide the image data (in a way
-similar to the [RaspiCV][3] project).
+similar to the [RaspiCV][3] project). The original `RaspiVid.c` is modified (see
+[d019d18][6]) to pass image and motion vector buffers to callbacks defined in
+`cv.h`. File `cv.cpp` implements these callbacks and provides the latest
+captured frame to class `RaspiVideoCapture`.
 
-The project works with OpenCV 3.1.0 release. The [camera_calibration][4] code
-and the XML configuration file come from the OpenCV library. The original
-`camera_calibration.cpp` is modified (see [e2bbc46][5]) to support the Raspberry
-Pi camera.
-
-The original `RaspiVid.c` is modified (see [d019d18][6]) to pass image and
-motion vector buffers to callbacks defined in `cv.h`. File `cv.cpp` implements
-these callbacks and provides the latest captured frame to class
-`RaspiVideoCapture`.
+The [camera_calibration][4] code and the XML configuration file come from the
+OpenCV library. The original `camera_calibration.cpp` is modified (see
+[e2bbc46][5]) to support the Raspberry Pi camera.
 
 The exact camera configuration (parametrs passed to the RaspiVid) is in `cv.cpp`
 (function `process_thread`). Currently the configuraton is limited to grayscale
