@@ -11,6 +11,8 @@
 #include <opencv2/videoio.hpp>
 #include <opencv2/highgui.hpp>
 
+#include "RaspiVideoCapture.h"
+
 #ifndef _CRT_SECURE_NO_WARNINGS
 # define _CRT_SECURE_NO_WARNINGS
 #endif
@@ -200,7 +202,7 @@ public:
     int cameraID;
     vector<string> imageList;
     size_t atImageList;
-    VideoCapture inputCapture;
+    RaspiVideoCapture inputCapture;
     InputType inputType;
     bool goodInput;
     int flag;
