@@ -1,24 +1,29 @@
 # RaspiCalib
 
-RapiCalib is the camera calibration app from an [OpenCV tutorial][1] modified to
+RapiCalib is a camera calibration app from an [OpenCV tutorial][1] modified to
 work directly with the Raspberry Pi camera.
 
 A modified [RaspiVid][2] application is used to provide the image data (in a way
 similar to the [RaspiCV][3] project).
 
 The project works with OpenCV 3.1.0 release. The [camera_calibration][4] code
-and the XML configuration file come from the OpenCV library. The
-camera_calibration code is modified (see [e2bbc46][5]) to support the Raspberry
+and the XML configuration file come from the OpenCV library. The original
+`camera_calibration.cpp` is modified (see [e2bbc46][5]) to support the Raspberry
 Pi camera.
 
-The original RaspiVid.c is modified (see [d019d18][6]) to pass image and motion
-vector buffers to callbacks defined in `cv.h`. File `cv.cpp` implements these
-callbacks and provides the latest captured frame to class `RaspiVideoCapture`.
+The original `RaspiVid.c` is modified (see [d019d18][6]) to pass image and
+motion vector buffers to callbacks defined in `cv.h`. File `cv.cpp` implements
+these callbacks and provides the latest captured frame to class
+`RaspiVideoCapture`.
+
+The exact camera configuration (parametrs passed to the RaspiVid) is in `cv.cpp`
+(function `process_thread`). Currently the configuraton is limited to grayscale
+format. This can be easily modified (see function `cv_init()`).
 
 ## Building
 
-First [build][7] the OpenCV library and make sure it is registered by
-`pkg-config`:
+First [build][7] the OpenCV library (version 3.1.0) and make sure it is
+registered by `pkg-config`:
 
 ```
 pkg-config --libs opencv
@@ -34,13 +39,14 @@ Finally, build the application by `make` and run it by `make run` or:
  raspicalib default.xml
 ```
 
-The application works exactly as described in the [tutorial][1]. The Raspberry Pi
-camera is used if you set `<Input>` in the XML configuration file to any number.
+The application works exactly as described in the [tutorial][1]. The Raspberry
+Pi camera is used if you set the `Input` element in the XML configuration file
+to any number in range 0 to 9, e.g. `<Input>"1"</Input>`.
 
 ## Acknowledgements
 
-The camera calibration code and tutorial was written by Bernát Gábor and is a
-part of the OpenCV library ([license][9]).
+The camera calibration code and tutorial was written by Bernát Gábor as a part
+of the OpenCV library ([license][9]).
 
 [1]: http://docs.opencv.org/master/d4/d94/tutorial_camera_calibration.html
 [2]: https://www.raspberrypi.org/documentation/usage/camera/raspicam/raspivid.md
